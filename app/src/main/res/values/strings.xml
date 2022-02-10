@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Cafe Shades</string>
+    <string name="title_activity_main_second">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_favourite">Favourite</string>
+    <string name="title_cart">Cart</string>
+    <string name="title_my_orders">My Orders</string>
+    <string name="title_profile">Profile</string>
+    <string name="card_item_desc">Chai is the best, Coffee is the best, </string>
+    <string name="log_in">Log In</string>
+    <string name="title_app_name">Cafe Shades</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_last_name">Last Name</string>
+    <string name="hint_phone_number">Phone Number</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_address">Address</string>
+    <string name="hint_floor_house_number">Floor/House Number</string>
+    <string name="hint_building_street_name">Building/Street Name</string>
+    <string name="hint_landmark">Landmark</string>
+    <string name="title_login">Login</string>
+    <string name="hint_enter_otp">Enter OTP</string>
+    <string name="hint_resend_otp">Resend OTP</string>
+    <string name="hint_get_otp">GET OTP</string>
+    <string name="hint_new_user">New User?</string>
+    <string name="rupee_symbol">₹</string>
+    <string name="add">+ Add</string>
+    <string name="minus">-</string>
+    <string name="zero">0</string>
+    <string name="plus">+</string>
+    <string name="item_name">Item Name</string>
+    <string name="item_image">item_image</string>
+    <string name="total">Total:</string>
+</resources>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "642508284446",
+    "project_id": "cafe-shades",
+    "storage_bucket": "cafe-shades.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642508284446:android:81abb9f135c5937555440f",
+        "android_client_info": {
+          "package_name": "com.example.cafeshades"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "642508284446-voavd7ha5p86nbpjhh98hug66opk6ic7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1m3-aIvm8h2TG8Rly0siJLvdmCE6YlCY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "642508284446-voavd7ha5p86nbpjhh98hug66opk6ic7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

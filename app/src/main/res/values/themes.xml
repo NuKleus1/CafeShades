@@ -1,0 +1,61 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.CafeShades" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorSecondary</item>
+        <item name="colorPrimaryVariant">@color/colorSecondaryVariant</item>
+        <item name="colorOnPrimary">@color/colorOnSecondary</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorPrimary</item>
+        <item name="colorSecondaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnSecondary">@color/colorSecondary</item>
+
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+
+        <item name="textAppearanceButton">@style/TextAppearance.App.Button</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+
+        <!--        <item name="textAppearanceSubtitle1">@style/TextAppearance.App.Subtitle1</item>-->
+        <!--        <item name="textAppearanceCaption">@style/TextAppearance.App.Caption</item>-->
+
+        <item name="fontFamily">@font/axiforma_medium</item>
+        <item name="android:fontFamily">@font/axiforma_medium</item>
+
+    </style>
+
+    <style name="Theme.NoActionBar" parent="Theme.CafeShades">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="TextAppearance.App.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/axiforma_medium</item>
+        <item name="android:fontFamily">@font/axiforma_medium</item>
+    </style>
+
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10sp</item>
+    </style>
+
+
+    <!--    <style name="TextAppearance.App.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">-->
+    <!--        <item name="fontFamily">@font/axiforma_medium</item>-->
+    <!--        <item name="android:fontFamily">@font/axiforma_medium</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="TextAppearance.App.Caption" parent="TextAppearance.MaterialComponents.Caption">-->
+    <!--        <item name="fontFamily">@font/axiforma_medium</item>-->
+    <!--        <item name="android:fontFamily">@font/axiforma_medium</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
+    <!--        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>-->
+    <!--        <item name="hintTextColor">?attr/colorOnSurface</item>-->
+    <!--    </style>-->
+
+</resources>
