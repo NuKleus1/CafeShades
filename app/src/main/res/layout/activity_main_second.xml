@@ -6,48 +6,55 @@
     android:layout_height="match_parent"
     android:background="@color/colorSurface">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorSurface"
-            app:titleCentered="true" />
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:elevation="0sp">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorSurface"
+                app:layout_scrollFlags="enterAlwaysCollapsed|scroll"
+                app:titleCentered="true" />
+        </com.google.android.material.appbar.AppBarLayout>
+
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_host_fragment_activity_main_second"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/nav_view"
+            android:layout_below="@+id/app_bar"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             app:defaultNavHost="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:navGraph="@navigation/mobile_navigation" />
-    </LinearLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
-        style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="@drawable/round_corners"
-        android:elevation="10sp"
-        app:itemIconSize="25sp"
-        app:labelVisibilityMode="unlabeled"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_view"
+            style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:background="@drawable/round_corners"
+            android:elevation="10sp"
+            app:itemIconSize="25sp"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/bottom_nav_menu" />
+    </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

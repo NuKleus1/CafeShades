@@ -42,7 +42,7 @@ public class MainActivitySecond extends AppCompatActivity {
             navController = navHostFragment.getNavController();
         }
 
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
 

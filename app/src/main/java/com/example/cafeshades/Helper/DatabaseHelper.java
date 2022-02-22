@@ -169,7 +169,10 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         HashSet<Integer> ids = new HashSet<>();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT " + ITEMS_COLUMN_ID + " FROM " + ITEMS_TABLE_NAME + " WHERE " + ITEMS_COLUMN_FAVOURITE + " = 1", null);
+            Cursor cursor = db.rawQuery("SELECT " + ITEMS_COLUMN_ID +
+                            " FROM " + ITEMS_TABLE_NAME +
+                            " WHERE " + ITEMS_COLUMN_FAVOURITE + " = 1",
+                    null);
 
             if (cursor.moveToFirst()) {
                 do {
@@ -188,7 +191,10 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         boolean fav = false;
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT " + ITEMS_COLUMN_FAVOURITE + " FROM " + ITEMS_TABLE_NAME + " WHERE " + ITEMS_COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
+            Cursor cursor = db.rawQuery("SELECT " + ITEMS_COLUMN_FAVOURITE +
+                            " FROM " + ITEMS_TABLE_NAME +
+                            " WHERE " + ITEMS_COLUMN_ID + " = ?",
+                    new String[]{String.valueOf(id)});
 
             if (cursor.moveToFirst()) {
                 fav = cursor.getInt(0) != 0;
@@ -324,7 +330,9 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM " + ITEMS_TABLE_NAME + " WHERE " + ITEMS_COLUMN_QUANTITY + " != 0", null);
+            Cursor cursor = db.rawQuery("SELECT * FROM " + ITEMS_TABLE_NAME +
+                            " WHERE " + ITEMS_COLUMN_QUANTITY + " != 0",
+                    null);
 
             if (cursor.moveToFirst()) {
                 do {
@@ -384,5 +392,22 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public int getCartItemTotal() {
+        int sum = 0;
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery("SELECT SUM(" + ITEMS_COLUMN_PRICE + " * " + ITEMS_COLUMN_QUANTITY + ") AS GrandTotal FROM " + ITEMS_TABLE_NAME, null);
+
+            if (cursor.moveToFirst()) {
+                sum = cursor.getInt(0);
+            }
+            cursor.close();
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sum;
     }
 }
