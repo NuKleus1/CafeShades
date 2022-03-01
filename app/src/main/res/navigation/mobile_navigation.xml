@@ -22,9 +22,10 @@
         android:name="com.example.cafeshades.fragments.CartFragment"
         android:label="@string/title_cart"
         tools:layout="@layout/fragment_cart" />
+
     <fragment
         android:id="@+id/navigation_my_orders"
-        android:name="com.example.cafeshades.fragments.MyOrdersFragment"
+        android:name="com.example.cafeshades.fragments.OrdersFragment"
         android:label="@string/title_my_orders"
         tools:layout="@layout/fragment_my_orders" />
 

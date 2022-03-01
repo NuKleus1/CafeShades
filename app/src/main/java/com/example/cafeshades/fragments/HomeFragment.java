@@ -1,6 +1,5 @@
 package com.example.cafeshades.fragments;
 
-import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -18,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cafeshades.Helper.DatabaseHelper;
 import com.example.cafeshades.R;
 import com.example.cafeshades.SharedPref;
-import com.example.cafeshades.adapters.RecycleViewAdapter;
+import com.example.cafeshades.adapters.RecyclerViewAdapter;
 import com.example.cafeshades.models.ItemModelClass;
 
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +29,7 @@ public class HomeFragment extends Fragment {
     ArrayList<ItemModelClass> itemDataList = new ArrayList<>();
     String TAG = "HomeFragment";
     View v = null;
-    RecycleViewAdapter adapter;
+    RecyclerViewAdapter adapter;
     RecyclerView recyclerView;
 
     public HomeFragment() {
@@ -59,12 +58,11 @@ public class HomeFragment extends Fragment {
 
         if (SharedPref.getPrefInstance(getContext()).getDatabaseCreated()) {
             itemDataList = DatabaseHelper.getInstance(getContext()).getAllItems();
-
         } else {
             setItemData();
         }
 
-        adapter = new RecycleViewAdapter(itemDataList, getContext());
+        adapter = new RecyclerViewAdapter(itemDataList, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }

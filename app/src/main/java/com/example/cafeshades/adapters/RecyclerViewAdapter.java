@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     final ArrayList<ItemModelClass> itemModelClassArrayList;
     private final Context context;
@@ -27,7 +27,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     DatabaseHelper db;
 
 
-    public RecycleViewAdapter(ArrayList<ItemModelClass> itemModelClassArrayList, Context context) {
+    public RecyclerViewAdapter(ArrayList<ItemModelClass> itemModelClassArrayList, Context context) {
         this.itemModelClassArrayList = itemModelClassArrayList;
         this.context = context;
         db = DatabaseHelper.getInstance(context);
@@ -35,10 +35,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     @NotNull
     @Override
-    public RecycleViewAdapter.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
+    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.card_view_items, parent, false);
-        return new RecycleViewAdapter.ViewHolder(view);
+        return new RecyclerViewAdapter.ViewHolder(view);
     }
 
     @Override

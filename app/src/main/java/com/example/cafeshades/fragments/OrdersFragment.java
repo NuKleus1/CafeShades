@@ -12,7 +12,7 @@ import com.example.cafeshades.R;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MyOrdersFragment extends Fragment {
+public class OrdersFragment extends Fragment {
     private View v = null;
 
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

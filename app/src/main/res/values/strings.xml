@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Cafe Shades</string>
     <string name="title_activity_main_second">MainActivity</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">Cafe Shades</string>
     <string name="title_favourite">Favourite</string>
     <string name="title_cart">Cart</string>
     <string name="title_my_orders">My Orders</string>
@@ -31,4 +31,9 @@
     <string name="item_name">Item Name</string>
     <string name="item_image">item_image</string>
     <string name="total">Total:</string>
+    <string name="item_total">Item total</string>
+    <string name="taxes_and_charges">Taxes and Charges</string>
+    <string name="your_order">Your Order</string>
+    <string name="cart_empty_hint">Add something refreshing to your cart</string>
+    <string name="confirm_order">Confirm Order</string>
 </resources>
