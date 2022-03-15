@@ -25,6 +25,9 @@
         <item name="fontFamily">@font/axiforma_medium</item>
         <item name="android:fontFamily">@font/axiforma_medium</item>
 
+<!--        SplashScreen-->
+
+
     </style>
 
     <style name="Theme.NoActionBar" parent="Theme.CafeShades">
@@ -41,6 +44,8 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10sp</item>
     </style>
+
+
 
 
     <!--    <style name="TextAppearance.App.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">-->

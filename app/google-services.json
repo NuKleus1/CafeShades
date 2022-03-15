@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "642508284446",
+    "firebase_url": "https://cafe-shades-default-rtdb.firebaseio.com",
     "project_id": "cafe-shades",
     "storage_bucket": "cafe-shades.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "642508284446-o2r88kabu6udjlo06jfep95mbutc80r3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cafeshades",
+            "certificate_hash": "2c3710cdd60f10f00e03c4dce604cda16d246281"
+          }
+        },
         {
           "client_id": "642508284446-voavd7ha5p86nbpjhh98hug66opk6ic7.apps.googleusercontent.com",
           "client_type": 3

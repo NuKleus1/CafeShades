@@ -2,11 +2,12 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorSurface"
     android:scrollbars="none"
-    tools:context=".fragments.SignUpFragment">
+    tools:context=".fragments.SignUpProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -59,7 +60,7 @@
             tools:ignore="ExtraText">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_login"
+                android:id="@+id/tv_sign_up"
                 style="@style/Widget.MaterialComponents.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,9 +75,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
                 android:baselineAligned="false"
                 android:orientation="horizontal"
-                android:layout_marginTop="10sp"
                 android:weightSum="2">
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -85,15 +86,17 @@
                     android:layout_width="0sp"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="5sp"
-                    app:startIconDrawable="@drawable/ic_user_name"
                     android:layout_weight="1"
-                    android:hint="@string/hint_first_name">
+                    android:hint="@string/hint_first_name"
+                    app:startIconDrawable="@drawable/ic_user_name">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_first_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:text="qwerty"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -103,14 +106,17 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="5sp"
                     android:layout_weight="1"
-                    app:startIconDrawable="@drawable/ic_user_name"
-                    android:hint="@string/hint_last_name">
+                    android:hint="@string/hint_last_name"
+                    app:startIconDrawable="@drawable/ic_user_name">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_last_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName" />
+                        android:text="qwerty"
+
+                        android:inputType="textPersonName"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -122,8 +128,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10sp"
                 android:hint="@string/hint_phone_number"
-                app:startIconDrawable="@drawable/ic_phone"
-                app:prefixText="+91">
+                app:prefixText="+91"
+                app:startIconDrawable="@drawable/ic_phone">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_phone_number"
@@ -131,6 +137,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:maxLength="10"
+                    android:text="9737745322"
                     android:textColorHint="#616161" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -140,14 +147,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10sp"
-                app:startIconDrawable="@drawable/ic_user_email"
-                android:hint="@string/hint_email">
+                android:hint="@string/hint_email"
+                app:startIconDrawable="@drawable/ic_user_email">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:text="qwerty@gmail.com"
+
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -159,18 +169,38 @@
                 android:textSize="20sp" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtIll_office_no"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp"
+                android:hint="@string/office_number"
+                app:startIconDrawable="@drawable/ic_home">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_office_no"
+                    android:layout_width="match_parent"
+                    android:text="12"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtIll_floor_house_no"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/ic_home"
                 android:layout_marginTop="5sp"
-                android:hint="@string/hint_floor_house_number">
+                android:hint="@string/hint_floor_house_number"
+                app:startIconDrawable="@drawable/ic_home">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_floor_house_no"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="2"
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -179,13 +209,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10sp"
-                app:startIconDrawable="@drawable/ic_building"
-                android:hint="@string/hint_building_street_name">
+                android:hint="@string/hint_building_street_name"
+                app:startIconDrawable="@drawable/ic_building">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_building_street_name"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:text="qwerty"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -193,14 +225,16 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/ic_landmark"
                 android:layout_marginTop="10sp"
-                android:hint="@string/hint_landmark">
+                android:hint="@string/hint_landmark"
+                app:startIconDrawable="@drawable/ic_landmark">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_landmark"
+                    android:text="qwerty"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -209,15 +243,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10sp"
-                android:visibility="gone"
-                android:hint="@string/hint_enter_otp">
+                android:hint="@string/hint_enter_otp"
+                android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_otp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="6"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:maxLength="6" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -231,15 +265,42 @@
                 android:visibility="gone" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_login"
-                android:layout_width="match_parent"
+                android:id="@+id/btn_otp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginStart="30sp"
                 android:layout_marginTop="20sp"
                 android:layout_marginEnd="30sp"
                 android:layout_marginBottom="30sp"
                 android:fontFamily="@font/axiforma_regular"
                 android:text="@string/hint_get_otp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_sign_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="30sp"
+                android:layout_marginTop="20sp"
+                android:layout_marginEnd="30sp"
+                android:layout_marginBottom="30sp"
+                android:fontFamily="@font/axiforma_regular"
+                android:text="@string/sign_up"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="30sp"
+                android:layout_marginTop="20sp"
+                android:layout_marginEnd="30sp"
+                android:layout_marginBottom="30sp"
+                android:fontFamily="@font/axiforma_regular"
+                android:text="@string/btn_edit"
+                android:visibility="gone" />
 
         </LinearLayout>
 

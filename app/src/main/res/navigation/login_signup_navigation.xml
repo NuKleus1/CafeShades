@@ -14,18 +14,24 @@
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_mobile_navigation"
-            app:destination="@id/mobile_navigation" />
+            android:id="@+id/action_loginFragment_to_mainActivitySecond"
+            app:destination="@id/mainActivitySecond" />
     </fragment>
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.cafeshades.fragments.SignUpFragment"
+        android:name="com.example.cafeshades.fragments.SignUpProfileFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up">
+        tools:layout="@layout/fragment_sign_up_profile">
         <action
             android:id="@+id/action_signUpFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_signUpFragment_to_mainActivitySecond"
+            app:destination="@id/mainActivitySecond" />
     </fragment>
-    <include app:graph="@navigation/mobile_navigation" />
+    <activity
+        android:id="@+id/mainActivitySecond"
+        android:name="com.example.cafeshades.activities.MainActivitySecond"
+        android:label="MainActivitySecond" />
 </navigation>

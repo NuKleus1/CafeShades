@@ -45,22 +45,4 @@ public class MainActivitySecond extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.w(TAG, "onDestroy");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.w(TAG, "onResume");
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        return super.onSupportNavigateUp();
-    }
 }

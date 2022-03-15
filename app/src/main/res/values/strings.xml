@@ -9,14 +9,13 @@
     <string name="card_item_desc">Chai is the best, Coffee is the best, </string>
     <string name="log_in">Log In</string>
     <string name="title_app_name">Cafe Shades</string>
-    <string name="sign_up">Sign Up</string>
     <string name="hint_first_name">First Name</string>
     <string name="hint_last_name">Last Name</string>
     <string name="hint_phone_number">Phone Number</string>
     <string name="hint_email">Email</string>
     <string name="hint_address">Address</string>
-    <string name="hint_floor_house_number">Floor/House Number</string>
-    <string name="hint_building_street_name">Building/Street Name</string>
+    <string name="hint_floor_house_number">Floor Number</string>
+    <string name="hint_building_street_name">Building Name</string>
     <string name="hint_landmark">Landmark</string>
     <string name="title_login">Login</string>
     <string name="hint_enter_otp">Enter OTP</string>
@@ -36,4 +35,12 @@
     <string name="your_order">Your Order</string>
     <string name="cart_empty_hint">Add something refreshing to your cart</string>
     <string name="confirm_order">Confirm Order</string>
+    <string name="btn_view_order">View Order</string>
+    <string name="btn_collapse">^</string>
+    <string name="btn_edit">Edit</string>
+    <string name="btn_save">Save</string>
+    <string name="office_number">Office Number</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="msg_token_fmt">token</string>
+    <string name="empty_string" />
 </resources>

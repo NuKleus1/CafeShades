@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cafeshades.Helper.DatabaseHelper;
 import com.example.cafeshades.R;
-import com.example.cafeshades.SharedPref;
+import com.example.cafeshades.UserPreferences;
 import com.example.cafeshades.adapters.RecyclerViewAdapter;
 import com.example.cafeshades.models.ItemModelClass;
 
@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment {
 
     private void setData() {
 
-        if (SharedPref.getPrefInstance(getContext()).getDatabaseCreated()) {
+        if (UserPreferences.getPrefInstance().getDatabaseCreated()) {
             itemDataList = DatabaseHelper.getInstance(getContext()).getAllItems();
         } else {
             setItemData();
@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
         }
         Log.w(TAG, "Static Data Added to the Database");
 
-        SharedPref.getPrefInstance(getContext()).setDatabaseCreated(true);
+        UserPreferences.getPrefInstance().setDatabaseCreated(true);
     }
 
 
