@@ -20,6 +20,7 @@ import androidx.navigation.Navigation;
 
 import com.example.cafeshades.R;
 import com.example.cafeshades.UserPreferences;
+import com.example.cafeshades.models.APIResponse;
 import com.example.cafeshades.models.UserData;
 import com.example.cafeshades.utils.APIClient;
 import com.example.cafeshades.utils.UserAPI;
@@ -49,6 +50,7 @@ public class SignUpProfileFragment extends Fragment {
 
     private final static String TAG = "SignUpProfileFragment";
     private static boolean flag;
+    PhoneAuthProvider.OnVerificationStateChangedCallbacks onVerificationStateChangedCallbacks;
     private View v;
     private TextInputLayout txtIllPhoneNumber, txtIllOtp, txtIllFirstName, txtIllLastName, txtIllEmail, txtIllOfficeNo, txtIllFloorNo, txtIllBuildingName, txtIllLandmark;
     private TextInputEditText txtPhoneNumber, txtOtp, txtFirstName, txtLastName, txtEmail, txtOfficeNo, txtFloorNo, txtBuildingName, txtLandmark;
@@ -58,7 +60,6 @@ public class SignUpProfileFragment extends Fragment {
     private TextView tvSignUp;
     private PhoneAuthProvider.ForceResendingToken resendToken;
     private String verficationId;
-    PhoneAuthProvider.OnVerificationStateChangedCallbacks onVerificationStateChangedCallbacks;
 
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class SignUpProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         firebaseGetToken();
-        flag = UserPreferences.getPrefInstance().getLoggedInFlag();
+        flag = UserPreferences.getPrefInstance(getContext()).getLoggedInFlag();
         init();
 
         if (flag) {
@@ -115,6 +116,8 @@ public class SignUpProfileFragment extends Fragment {
 
                     btnEdit.setText(R.string.btn_save);
                 } else {
+
+                    updateUserProfile();
                     txtFloorNo.setEnabled(false);
                     txtOfficeNo.setEnabled(false);
                     txtBuildingName.setEnabled(false);
@@ -313,7 +316,7 @@ public class SignUpProfileFragment extends Fragment {
                             // Log and toast
                             Log.d(TAG, task.getResult());
                             Toast.makeText(getContext(), task.getResult(), Toast.LENGTH_SHORT).show();
-                            UserPreferences.getPrefInstance().setToken(task.getResult());
+                            UserPreferences.getPrefInstance(getContext()).setToken(task.getResult());
                         } else {
                             Log.w(TAG, "Fetching FCM registration token failed", task.getException());
                         }
@@ -362,7 +365,7 @@ public class SignUpProfileFragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithCredential:success");
-                            callUserRegistrationAPI();
+                            registerUser();
                         } else {
                             Log.w(TAG, "signInWithCredential:failure ", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
@@ -377,7 +380,7 @@ public class SignUpProfileFragment extends Fragment {
 
     }
 
-    private void callUserRegistrationAPI() {
+    private void registerUser() {
         UserAPI api = APIClient.getClient().create(UserAPI.class);
 
         Call<UserData> call = api.userRegistration(
@@ -387,7 +390,7 @@ public class SignUpProfileFragment extends Fragment {
                 String.valueOf(txtOfficeNo.getText()),
                 String.valueOf(txtLandmark.getText()),
                 String.valueOf(txtPhoneNumber.getText()),
-                UserPreferences.getPrefInstance().getToken(),
+                UserPreferences.getPrefInstance(getContext()).getToken(),
                 "Customer"
         );
 
@@ -399,8 +402,8 @@ public class SignUpProfileFragment extends Fragment {
                         Log.d(TAG, "ResponseSuccess :" + response.body().getResponseMessage());
                         Toast.makeText(getContext(), response.body().getResponseMessage(), Toast.LENGTH_LONG).show();
 //                        Toast.makeText(getContext(), "Sign Up successful!", Toast.LENGTH_LONG).show();
-                        UserPreferences.getPrefInstance().setUserData(response.body().getUser());
-                        UserPreferences.getPrefInstance().setLoggedInFlag(true);
+                        UserPreferences.getPrefInstance(getContext()).setUserData(response.body().getUser());
+                        UserPreferences.getPrefInstance(getContext()).setLoggedInFlag(true);
                         Navigation.findNavController(v).navigate(R.id.action_signUpFragment_to_mainActivitySecond);
                         getActivity().finish();
                     } else {
@@ -421,6 +424,44 @@ public class SignUpProfileFragment extends Fragment {
         });
     }
 
+    private void updateUserProfile() {
+        UserAPI api = APIClient.getClient().create(UserAPI.class);
+        api.updateUserProfile(
+                txtFirstName.getText() + " " + txtLastName.getText(),
+                String.valueOf(txtBuildingName.getText()),
+                String.valueOf(txtFloorNo.getText()),
+                String.valueOf(txtOfficeNo.getText()),
+                String.valueOf(txtLandmark.getText()),
+                "1"
+        ).enqueue(new Callback<APIResponse>() {
+            @Override
+            public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
+                if (response.code() == 200) {
+                    if (response.body().getResponseStatus().equals("true")) {
+                        Log.d(TAG, response.body().getResponseMessage());
+                        UserPreferences prefInstance = UserPreferences.getPrefInstance(getContext());
+                        prefInstance.setName(txtFirstName.getText() + " " + txtLastName.getText());
+                        prefInstance.setBuildingName(String.valueOf(txtBuildingName.getText()));
+                        prefInstance.setFloorNumber(String.valueOf(txtFloorNo.getText()));
+                        prefInstance.setOfficeNumber(String.valueOf(txtOfficeNo.getText()));
+                        prefInstance.setLandmark(String.valueOf(txtLandmark.getText()));
+                        Toast.makeText(getContext(), "User Profile Updated!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), response.body().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, response.body().getResponseMessage());
+                    }
+                } else {
+                    Log.d(TAG, String.valueOf(response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse> call, Throwable t) {
+                Log.d(TAG, "/updateUserProfileFailure");
+            }
+        });
+    }
+
     private void enableUserManuallyInputCode() {
         txtIllOtp.setVisibility(View.VISIBLE);
         btnResendOtp.setVisibility(View.VISIBLE);
@@ -437,7 +478,7 @@ public class SignUpProfileFragment extends Fragment {
 
     private void resendOTP(String phoneNumber) {
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder()
-                .setPhoneNumber("+91"+phoneNumber)
+                .setPhoneNumber("+91" + phoneNumber)
                 .setTimeout(60L, TimeUnit.SECONDS)
                 .setActivity(getActivity())
                 .setCallbacks(onVerificationStateChangedCallbacks)

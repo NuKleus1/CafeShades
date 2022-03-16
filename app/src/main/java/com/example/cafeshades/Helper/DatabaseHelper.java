@@ -7,35 +7,35 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.cafeshades.models.ItemModelClass;
+import com.example.cafeshades.models.Product;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
 public final class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "CafeShades.db";
-    public static final String ITEMS_TABLE_NAME = "items";
-    public static final String ITEMS_COLUMN_ID = "itemId";
-    public static final String ITEMS_COLUMN_NAME = "itemName";
-    public static final String ITEMS_COLUMN_DESCRIPTION = "itemDescription";
-    public static final String ITEMS_COLUMN_CATEGORY = "itemCategory";
-    public static final String ITEMS_COLUMN_IMAGE = "itemImage";
-    public static final String ITEMS_COLUMN_PRICE = "itemPrice";
-    public static final String ITEMS_COLUMN_FAVOURITE = "itemIsFavourite";
-    public static final String ITEMS_COLUMN_QUANTITY = "itemQuantity";
+    public static final String ITEMS_TABLE_NAME = "products";
+    public static final String ITEMS_COLUMN_ID = "productId";
+    public static final String ITEMS_COLUMN_NAME = "productName";
+    public static final String ITEMS_COLUMN_DESCRIPTION = "productDescription";
+    public static final String ITEMS_COLUMN_CATEGORY = "categoryId";
+    public static final String ITEMS_COLUMN_IMAGE = "productImage";
+    public static final String ITEMS_COLUMN_PRICE = "productPrice";
+    public static final String ITEMS_COLUMN_FAVOURITE = "productIsFavourite";
+    public static final String ITEMS_COLUMN_QUANTITY = "productQuantity";
     private static final String TAG = "DatabaseHelper";
 
-    private static DatabaseHelper instance = null;
+    private static DatabaseHelper dbHelperInstance = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 
     public static DatabaseHelper getInstance(Context context) {
-        if (instance == null) {
-            instance = new DatabaseHelper(context);
+        if (dbHelperInstance == null) {
+            dbHelperInstance = new DatabaseHelper(context);
         }
-        return instance;
+        return dbHelperInstance;
     }
 
     @Override
@@ -51,6 +51,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 //        String queryCartTable = "CREATE TABLE " + CART_TABLE_NAME + " ( " + CART_COLUMN_ID +" INTEGER)";
 
         sqLiteDatabase.execSQL(queryItemTable);
+        Log.d(TAG, "DB Created");
 //        sqLiteDatabase.execSQL(queryCartTable);
     }
 
@@ -58,33 +59,32 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
     }
 
-
     //ITEMS
-
-
-    public void insertItems(ItemModelClass item) {
-
+    public void insertProduct(Product product) {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues cv = new ContentValues();
 
-            cv.put(ITEMS_COLUMN_ID, item.getItemID());
-            cv.put(ITEMS_COLUMN_NAME, item.getItemName());
-            cv.put(ITEMS_COLUMN_DESCRIPTION, item.getItemDescription());
-            cv.put(ITEMS_COLUMN_CATEGORY, item.getItemDescription());
-//            cv.put(ITEMS_COLUMN_IMAGE, getBytes(item.getItemImage()));
-            cv.put(ITEMS_COLUMN_PRICE, item.getItemPrice());
-            cv.put(ITEMS_COLUMN_FAVOURITE, item.isItemFavourite());
-            cv.put(ITEMS_COLUMN_QUANTITY, item.getItemQuantity());
+
+
+            cv.put(ITEMS_COLUMN_ID, product.getProductId());
+            cv.put(ITEMS_COLUMN_NAME, product.getProductName());
+//            cv.put(ITEMS_COLUMN_IMAGE, getBytes(product.getItemImage()));
+            cv.put(ITEMS_COLUMN_PRICE, product.getProductPrice());
+            cv.put(ITEMS_COLUMN_CATEGORY, product.getProductCategory());
+            cv.put(ITEMS_COLUMN_QUANTITY, product.getProductQuantity());
+            cv.put(ITEMS_COLUMN_FAVOURITE, product.isProductFavourite());
+            cv.put(ITEMS_COLUMN_DESCRIPTION, "product.getProductDescription");
 
             db.insert(ITEMS_TABLE_NAME, null, cv);
+
             db.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void deleteItem(int id) {
+    public void deleteProduct(int id) {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             db.delete(ITEMS_TABLE_NAME, ITEMS_COLUMN_ID + " = ? ", new String[]{String.valueOf(id)});
@@ -94,8 +94,8 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public ArrayList<ItemModelClass> getAllItems() {
-        ArrayList<ItemModelClass> items = new ArrayList<>();
+    public ArrayList<Product> getAllProducts() {
+        ArrayList<Product> products = new ArrayList<>();
 
 
         try {
@@ -104,18 +104,18 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
             if (cursor.moveToFirst()) {
                 do {
-                    ItemModelClass item = new ItemModelClass();
+                    Product product = new Product();
 
-                    item.setItemID(cursor.getInt(0));
-                    item.setItemName(cursor.getString(1));
-                    item.setItemDescription(cursor.getString(2));
-                    item.setItemCategory(cursor.getString(3));
-//                    item.setItemImage(getImage(cursor.getBlob(5)));
-                    item.setItemPrice(cursor.getInt(5));
-                    item.setItemFavourite(cursor.getInt(6) == 1);
-                    item.setItemQuantity(cursor.getInt(7));
+                    product.setProductId(cursor.getInt(0));
+                    product.setProductName(cursor.getString(1));
+                    product.setProductDescription(cursor.getString(2));
+                    product.setProductCategory(cursor.getString(3));
+//                    product.setItemImage(getImage(cursor.getBlob(5)));
+                    product.setProductPrice(cursor.getInt(5));
+                    product.setProductFavourite(cursor.getInt(6) == 1);
+                    product.setProductQuantity(cursor.getInt(7));
 
-                    items.add(item);
+                    products.add(product);
                 } while (cursor.moveToNext());
             }
 
@@ -125,14 +125,14 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
 
-        return items;
+        return products;
     }
 
 
     //FAVOURITE
 
-    public ArrayList<ItemModelClass> getAllFavouriteItems() {
-        ArrayList<ItemModelClass> items = new ArrayList<>();
+    public ArrayList<Product> getAllFavouriteProducts() {
+        ArrayList<Product> products = new ArrayList<>();
 
 
         try {
@@ -141,18 +141,17 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
             if (cursor.moveToFirst()) {
                 do {
-                    ItemModelClass item = new ItemModelClass();
+                    Product product = new Product();
 
-                    item.setItemID(cursor.getInt(0));
-                    item.setItemName(cursor.getString(1));
-                    item.setItemDescription(cursor.getString(2));
-                    item.setItemCategory(cursor.getString(3));
-//                    item.setItemImage(getImage(cursor.getBlob(5)));
-                    item.setItemPrice(cursor.getInt(5));
-                    item.setItemFavourite(true);
-                    item.setItemQuantity(cursor.getInt(7));
+                    product.setProductId(cursor.getInt(0));
+                    product.setProductName(cursor.getString(1));
+                    product.setProductDescription(cursor.getString(2));
+                    product.setProductCategory(cursor.getString(3));
+                    product.setProductPrice(cursor.getInt(5));
+                    product.setProductFavourite(true);
+                    product.setProductQuantity(cursor.getInt(7));
 
-                    items.add(item);
+                    products.add(product);
                 } while (cursor.moveToNext());
             }
 
@@ -162,10 +161,10 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
 
-        return items;
+        return products;
     }
 
-    public HashSet<Integer> getAllFavouriteItemIDs() {
+    public HashSet<Integer> getAllFavouriteProductIds() {
         HashSet<Integer> ids = new HashSet<>();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
@@ -222,111 +221,11 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-
-    // CART
-
-//    public void insertItemsToCart(ItemModelClass item) {
-//        try {
-//            SQLiteDatabase db = this.getWritableDatabase();
-//            ContentValues cv = new ContentValues();
-//
-//            cv.put(CART_COLUMN_ID, item.getItemID());
-//            cv.put(CART_COLUMN_NAME, item.getItemName());
-//            cv.put(CART_COLUMN_DESCRIPTION, item.getItemDescription());
-//            cv.put(CART_COLUMN_CATEGORY, item.getItemDescription());
-////            cv.put(CART_COLUMN_IMAGE, getBytes(item.getItemImage()));
-//            cv.put(CART_COLUMN_PRICE, item.getItemPrice());
-//            cv.put(CART_COLUMN_QUANTITY, item.getItemQuantity());
-//
-//            db.insert(CART_TABLE_NAME, null, cv);
-//            db.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void deleteItemFromCart(int id) {
-//        try {
-//            SQLiteDatabase db = this.getWritableDatabase();
-//            db.delete(CART_TABLE_NAME, CART_COLUMN_ID + " = ? ", new String[]{String.valueOf(id)});
-//            db.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public ArrayList<ItemModelClass> getAllCartItems() {
-//        ArrayList<ItemModelClass> items = new ArrayList<>();
-//
-//
-//        try {
-//            SQLiteDatabase db = this.getReadableDatabase();
-//            Cursor cursor = db.rawQuery("SELECT * FROM " + CART_TABLE_NAME, null);
-//
-//            if (cursor.moveToFirst()) {
-//                do {
-//                    ItemModelClass item = new ItemModelClass();
-//
-//                    item.setItemID(cursor.getInt(0));
-//                    item.setItemName(cursor.getString(1));
-//                    item.setItemDescription(cursor.getString(2));
-//                    item.setItemCategory(cursor.getString(3));
-////                    item.setItemImage(getImage(cursor.getBlob(4)));
-//                    item.setItemPrice(cursor.getInt(5));
-//                    item.setItemFavourite(true);
-//                    item.setItemQuantity(cursor.getInt(6));
-//
-//                    items.add(item);
-//                } while (cursor.moveToNext());
-//            }
-//
-//            cursor.close();
-//            db.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return items;
-//    }
-//
-//    public HashSet<Integer> getAllCartItemIDs() {
-//        HashSet<Integer> ids = new HashSet<>();
-//        try {
-//            SQLiteDatabase db = this.getReadableDatabase();
-//            Cursor cursor = db.rawQuery("SELECT " + CART_COLUMN_ID + " FROM " + CART_TABLE_NAME, null);
-//
-//            if (cursor.moveToFirst()) {
-//                do {
-//                    ids.add(cursor.getInt(0));
-//                } while (cursor.moveToNext());
-//            }
-//            cursor.close();
-//            db.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return ids;
-//    }
-//
-//    public void updateQuantityToCart(int id, int quantity) {
-//        try {
-//            SQLiteDatabase db = this.getReadableDatabase();
-//
-//            ContentValues cv = new ContentValues();
-//            cv.put(ITEMS_COLUMN_QUANTITY, String.valueOf(quantity));
-//            db.update(ITEMS_TABLE_NAME, cv, ITEMS_COLUMN_ID + "= ?", new String[]{String.valueOf(id)});
-//            db.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-
     //CART
 
-    public ArrayList<ItemModelClass> getAllCartItems() {
+    public ArrayList<Product> getAllCartProducts() {
 
-        ArrayList<ItemModelClass> items = new ArrayList<>();
+        ArrayList<Product> products = new ArrayList<>();
 
         try {
             SQLiteDatabase db = this.getReadableDatabase();
@@ -337,17 +236,17 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
 
-                    ItemModelClass item = new ItemModelClass();
+                    Product product = new Product();
 
-                    item.setItemID(cursor.getInt(0));
-                    item.setItemName(cursor.getString(1));
-                    item.setItemDescription(cursor.getString(2));
-                    item.setItemCategory(cursor.getString(3));
-//                    item.setItemImage(getImage(cursor.getBlob(5)));
-                    item.setItemPrice(cursor.getInt(5));
-                    item.setItemFavourite(cursor.getInt(6) == 1);
-                    item.setItemQuantity(cursor.getInt(7));
-                    items.add(item);
+                    product.setProductId(cursor.getInt(0));
+                    product.setProductName(cursor.getString(1));
+                    product.setProductDescription(cursor.getString(2));
+                    product.setProductCategory(cursor.getString(3));
+//                    product.setItemImage(getImage(cursor.getBlob(5)));
+                    product.setProductPrice(cursor.getInt(5));
+                    product.setProductFavourite(cursor.getInt(6) == 1);
+                    product.setProductQuantity(cursor.getInt(7));
+                    products.add(product);
                 } while (cursor.moveToNext());
             }
 
@@ -357,7 +256,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
 
-        return items;
+        return products;
     }
 
     public int getQuantity(int id) {
@@ -394,7 +293,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public int getCartItemTotal() {
+    public int getCartProductTotal() {
         int sum = 0;
         try {
             SQLiteDatabase db = this.getWritableDatabase();

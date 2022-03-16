@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cafeshades.R;
-import com.example.cafeshades.models.ItemModelClass;
+import com.example.cafeshades.models.Product;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
@@ -19,11 +19,11 @@ import java.util.ArrayList;
 public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerViewAdapter.CartListViewHolder> {
 
     private static final String TAG = "CART_LIST_VIEW_ADAPTER";
-    ArrayList<ItemModelClass> itemModelClassArrayList;
+    ArrayList<Product> productArrayList;
     OnViewClickListeners onViewClickListeners;
 
-    public CartRecyclerViewAdapter(ArrayList<ItemModelClass> itemModelClassArrayList, OnViewClickListeners onViewClickListeners) {
-        this.itemModelClassArrayList = itemModelClassArrayList;
+    public CartRecyclerViewAdapter(ArrayList<Product> productArrayList, OnViewClickListeners onViewClickListeners) {
+        this.productArrayList = productArrayList;
         this.onViewClickListeners = onViewClickListeners;
     }
 
@@ -38,19 +38,19 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull CartListViewHolder holder, int position) {
-        ItemModelClass item = itemModelClassArrayList.get(position);
+        Product item = productArrayList.get(position);
 
-        holder.tvItemName.setText(item.getItemName());
+        holder.tvItemName.setText(item.getProductName());
 
-        int quantity = item.getItemQuantity();
+        int quantity = item.getProductQuantity();
         holder.tvItemQuantity.setText(String.valueOf(quantity));
-        holder.tvItemPrice.setText(String.valueOf(item.getItemPrice() * quantity));
-        holder.tvBasePrice.setText(String.valueOf(item.getItemPrice()));
+        holder.tvItemPrice.setText(String.valueOf(item.getProductPrice() * quantity));
+        holder.tvBasePrice.setText(String.valueOf(item.getProductPrice()));
     }
 
     @Override
     public int getItemCount() {
-        return itemModelClassArrayList.size();
+        return productArrayList.size();
     }
 
     public interface OnViewClickListeners {
@@ -89,8 +89,8 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
         public void onClick(View view) {
             int position = getAdapterPosition();
             int id = view.getId();
-            ItemModelClass item = itemModelClassArrayList.get(position);
-            int itemID = item.getItemID();
+            Product item = productArrayList.get(position);
+            int itemID = item.getProductId();
 
 //            if (id == btnAdd.getId()) {
 //                tvItemQuantity.setText("1");
@@ -100,25 +100,25 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
 //            } else
             if (id == btnItemAddQuantity.getId()) {
                 int quantity = Integer.parseInt(tvItemQuantity.getText().toString()) + 1;
-                item.setItemQuantity(quantity);
+                item.setProductQuantity(quantity);
                 tvItemQuantity.setText(String.valueOf(quantity));
-                tvItemPrice.setText(String.valueOf(quantity * item.getItemPrice()));
+                tvItemPrice.setText(String.valueOf(quantity * item.getProductPrice()));
                 onViewClickListeners.setQuantity(itemID, quantity);
             } else if (id == btnItemSubtractQuantity.getId()) {
                 int quantity = Integer.parseInt(tvItemQuantity.getText().toString()) - 1;
                 onViewClickListeners.setQuantity(itemID, quantity);
-                item.setItemQuantity(quantity);
+                item.setProductQuantity(quantity);
                 if (quantity == 0) {
 //                    tvItemQuantity.setText("0");
 //                    disableAddQuantityMode();
-                    itemModelClassArrayList.remove(position);
+                    productArrayList.remove(position);
                     notifyDataSetChanged();
-                    if (itemModelClassArrayList.isEmpty()) {
+                    if (productArrayList.isEmpty()) {
                         onViewClickListeners.setCartEmptyHint();
                     }
                 } else {
                     tvItemQuantity.setText(String.valueOf(quantity));
-                    tvItemPrice.setText(String.valueOf(quantity * item.getItemPrice()));
+                    tvItemPrice.setText(String.valueOf(quantity * item.getProductPrice()));
                 }
             }
             onViewClickListeners.setTotal();

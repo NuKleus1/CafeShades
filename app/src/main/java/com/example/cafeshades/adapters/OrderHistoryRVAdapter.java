@@ -17,13 +17,14 @@ import com.example.cafeshades.models.OrderModelClass;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderHistoryRVAdapter extends RecyclerView.Adapter<OrderHistoryRVAdapter.ViewHolder> {
 
-    static ArrayList<OrderModelClass> orderList;
+    static List<OrderModelClass> orderList;
     Context context;
 
-    public OrderHistoryRVAdapter(Context context, ArrayList<OrderModelClass> orderList) {
+    public OrderHistoryRVAdapter(Context context, List<OrderModelClass> orderList) {
         this.orderList = orderList;
         this.context = context;
     }
@@ -37,12 +38,12 @@ public class OrderHistoryRVAdapter extends RecyclerView.Adapter<OrderHistoryRVAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvOrderNumber.setText(orderList.get(position).getOrderNumber());
-        holder.tvDate.setText(orderList.get(position).getDate());
+        holder.tvOrderNumber.setText(orderList.get(position).getOrderId());
+        holder.tvDate.setText(orderList.get(position).getOrderDate());
         holder.tvTotalAmount.setText(orderList.get(position).getTotalAmount());
         holder.tvOrderStatus.setText(orderList.get(position).getOrderStatus());
 
-        OrderHistoryItemRVAdapter adapter = new OrderHistoryItemRVAdapter(orderList.get(position).getOrderItemModelClassArrayList());
+        OrderHistoryItemRVAdapter adapter = new OrderHistoryItemRVAdapter(orderList.get(position).getProductList());
 
         holder.rvOrderHistoryItemList.setLayoutManager(new LinearLayoutManager(context));
         holder.rvOrderHistoryItemList.setAdapter(adapter);

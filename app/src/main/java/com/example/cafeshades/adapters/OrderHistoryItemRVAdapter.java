@@ -9,15 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cafeshades.R;
-import com.example.cafeshades.models.OrderItemModelClass;
+import com.example.cafeshades.models.Product;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class OrderHistoryItemRVAdapter extends RecyclerView.Adapter<OrderHistoryItemRVAdapter.OrderHistoryItemListViewHolder> {
-    private ArrayList<OrderItemModelClass> orderItemModelClassArrayList;
+    private List<Product> productList;
 
-    public OrderHistoryItemRVAdapter(ArrayList<OrderItemModelClass> orderItemModelClassArrayList) {
-        this.orderItemModelClassArrayList = orderItemModelClassArrayList;
+    public OrderHistoryItemRVAdapter(List<Product> productList) {
+        this.productList = productList;
     }
 
     @NonNull
@@ -29,14 +29,14 @@ public class OrderHistoryItemRVAdapter extends RecyclerView.Adapter<OrderHistory
 
     @Override
     public void onBindViewHolder(@NonNull OrderHistoryItemListViewHolder holder, int position) {
-        holder.tvName.setText(orderItemModelClassArrayList.get(position).getItemName());
-        holder.tvQuantity.setText(orderItemModelClassArrayList.get(position).getQuantity());
-        holder.tvPrice.setText(orderItemModelClassArrayList.get(position).getItemPrice());
+        holder.tvName.setText(productList.get(position).getProductName());
+        holder.tvQuantity.setText(String.valueOf(productList.get(position).getProductQuantity()));
+        holder.tvPrice.setText(String.valueOf(productList.get(position).getProductPrice()));
     }
 
     @Override
     public int getItemCount() {
-        return orderItemModelClassArrayList.size();
+        return productList.size();
     }
 
     public class OrderHistoryItemListViewHolder extends RecyclerView.ViewHolder {

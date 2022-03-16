@@ -1,44 +1,59 @@
 package com.example.cafeshades.models;
 
-import java.util.ArrayList;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class OrderModelClass {
-    private String orderNumber;
-    private String date;
-    private String orderStatus;
-    private String totalAmount;
-    private ArrayList<OrderItemModelClass> orderItemModelClassArrayList;
 
-    public OrderModelClass(String orderNumber, String date, String orderStatus, String totalAmount, ArrayList<OrderItemModelClass> orderItemModelClassArrayList) {
-        this.orderNumber = orderNumber;
-        this.date = date;
+    @SerializedName("orderId")
+    @Expose
+    private String orderId;
+    @SerializedName("orderStatus")
+    @Expose
+    private String orderStatus;
+    @SerializedName("orderDate")
+    @Expose
+    private String orderDate;
+    @SerializedName("totalAmount")
+    @Expose
+    private String totalAmount;
+    @SerializedName("productList")
+    @Expose
+    private List<Product> productList = null;
+
+    public OrderModelClass(String orderId, String orderDate, String orderStatus, String totalAmount, List<Product> productList) {
+        this.orderId = orderId;
+        this.orderDate = orderDate;
         this.orderStatus = orderStatus;
         this.totalAmount = totalAmount;
-        this.orderItemModelClassArrayList = orderItemModelClassArrayList;
+        this.productList = productList;
     }
 
-    public ArrayList<OrderItemModelClass> getOrderItemModelClassArrayList() {
-        return orderItemModelClassArrayList;
+
+    public List<Product> getProductList() {
+        return productList;
     }
 
-    public void setOrderItemModelClassArrayList(ArrayList<OrderItemModelClass> orderItemModelClassArrayList) {
-        this.orderItemModelClassArrayList = orderItemModelClassArrayList;
+    public void setProductList(List<Product> productList) {
+        this.productList = OrderModelClass.this.productList;
     }
 
-    public String getOrderNumber() {
-        return orderNumber;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
-    public String getDate() {
-        return date;
+    public String getOrderDate() {
+        return orderDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
     }
 
     public String getOrderStatus() {

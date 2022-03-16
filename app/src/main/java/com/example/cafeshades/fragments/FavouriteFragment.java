@@ -50,7 +50,7 @@ public class FavouriteFragment extends Fragment {
 
     private void setData() {
 //        dataList = db.getAllFavouriteItems();
-        adapter = new RecyclerViewAdapter(db.getAllFavouriteItems(), getContext());
+        adapter = new RecyclerViewAdapter(db.getAllFavouriteProducts(), getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }

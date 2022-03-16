@@ -1,6 +1,7 @@
 package com.example.cafeshades.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +12,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cafeshades.R;
+import com.example.cafeshades.UserPreferences;
 import com.example.cafeshades.adapters.OrderHistoryRVAdapter;
-import com.example.cafeshades.models.OrderItemModelClass;
 import com.example.cafeshades.models.OrderModelClass;
+import com.example.cafeshades.models.OrderResponse;
+import com.example.cafeshades.utils.APIClient;
+import com.example.cafeshades.utils.UtilAPI;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OrdersFragment extends Fragment {
+    private final static String TAG = "OrdersFragment";
     RecyclerView rvOrderHistory;
-    ArrayList<OrderModelClass> orderList = new ArrayList<>();
+    List<OrderModelClass> orderModelClassList;
     private View v = null;
 
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,22 +45,44 @@ public class OrdersFragment extends Fragment {
     }
 
     private void setData() {
-        ArrayList<OrderItemModelClass> item = new ArrayList<>();
+//        ArrayList<OrderItemModelClass> item = new ArrayList<>();
+//
+//        item.add(new OrderItemModelClass("2", "Cappuccino", "453"));
+//        item.add(new OrderItemModelClass("2", "Cappuccino", "453"));
+//        item.add(new OrderItemModelClass("2", "Cappuccino", "453"));
+//        item.add(new OrderItemModelClass("2", "Cappuccino", "453"));
 
-        item.add(new OrderItemModelClass("2", "Cappuccino", "453"));
-        item.add(new OrderItemModelClass("2", "Cappuccino", "453"));
-        item.add(new OrderItemModelClass("2", "Cappuccino", "453"));
-        item.add(new OrderItemModelClass("2", "Cappuccino", "453"));
+//        orderList.add(new OrderModelClass("5432", "24 Sep 2022", "Confirmed", "245", item));
+//        orderList.add(new OrderModelClass("5432", "24 Sep 2022", "Confirmed", "245", item));
+//        orderList.add(new OrderModelClass("5432", "24 Sep 2022", "Confirmed", "245", item));
+//        orderList.add(new OrderModelClass("5432", "24 Sep 2022", "Confirmed", "245", item));
+//        orderList.add(new OrderModelClass("5432", "24 Sep 2022", "Confirmed", "245", item));
 
-        orderList.add(new OrderModelClass("5432", "24 Sep 2022", "Confirmed", "245", item));
-        orderList.add(new OrderModelClass("5432", "24 Sep 2022", "Confirmed", "245", item));
-        orderList.add(new OrderModelClass("5432", "24 Sep 2022", "Confirmed", "245", item));
-        orderList.add(new OrderModelClass("5432", "24 Sep 2022", "Confirmed", "245", item));
-        orderList.add(new OrderModelClass("5432", "24 Sep 2022", "Confirmed", "245", item));
+        callUtilAPI();
 
-        OrderHistoryRVAdapter adapter = new OrderHistoryRVAdapter(getContext(), orderList);
-        rvOrderHistory.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvOrderHistory.setAdapter(adapter);
+    }
+
+    public void callUtilAPI() {
+        UtilAPI api = APIClient.getClient().create(UtilAPI.class);
+        Log.d(TAG, UserPreferences.getPrefInstance(getContext()).getUserId());
+        api.getUsersOrders("1").enqueue(new Callback<OrderResponse>() {
+            @Override
+            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+                if (response.code() == 200) {
+                    if (response.body().getResponseStatus().equals("true")) {
+                        orderModelClassList = response.body().getOrderModelClassList();
+                        OrderHistoryRVAdapter adapter = new OrderHistoryRVAdapter(getContext(), orderModelClassList);
+                        rvOrderHistory.setLayoutManager(new LinearLayoutManager(getContext()));
+                        rvOrderHistory.setAdapter(adapter);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     private void init() {

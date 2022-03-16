@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cafeshades.Helper.DatabaseHelper;
 import com.example.cafeshades.R;
-import com.example.cafeshades.models.ItemModelClass;
+import com.example.cafeshades.models.Product;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -21,14 +21,14 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    final ArrayList<ItemModelClass> itemModelClassArrayList;
+    final ArrayList<Product> productArrayList;
     private final Context context;
     private final String TAG = "RECYCLE_VIEW_ADAPTER";
     DatabaseHelper db;
 
 
-    public RecyclerViewAdapter(ArrayList<ItemModelClass> itemModelClassArrayList, Context context) {
-        this.itemModelClassArrayList = itemModelClassArrayList;
+    public RecyclerViewAdapter(ArrayList<Product> productArrayList, Context context) {
+        this.productArrayList = productArrayList;
         this.context = context;
         db = DatabaseHelper.getInstance(context);
     }
@@ -43,21 +43,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ItemModelClass item = itemModelClassArrayList.get(position);
+        Product item = productArrayList.get(position);
 
 //        holder.ivItemImage.setImageBitmap(itemModelClassArrayList.get(position).getItemImage());
-        holder.tvItemName.setText(item.getItemName());
-        holder.tvItemDesc.setText(item.getItemDescription());
-        holder.cbFavourite.setChecked(item.isItemFavourite());
+        holder.tvItemName.setText(item.getProductName());
+        holder.tvItemDesc.setText(item.getProductDescription());
+        holder.cbFavourite.setChecked(item.isProductFavourite());
 
-        int quantity = item.getItemQuantity();
+        int quantity = item.getProductQuantity();
         if (quantity == 0) {
             holder.disableAddQuantityMode();
-            holder.tvItemPrice.setText(String.valueOf(item.getItemPrice()));
+            holder.tvItemPrice.setText(String.valueOf(item.getProductPrice()));
         } else {
             holder.enableAddQuantityMode();
             holder.tvItemQuantity.setText(String.valueOf(quantity));
-            holder.tvItemPrice.setText(String.valueOf(item.getItemPrice() * quantity));
+            holder.tvItemPrice.setText(String.valueOf(item.getProductPrice() * quantity));
         }
 
         // Set Favourite to true in model class item when checked, and insert into DB
@@ -65,10 +65,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.cbFavourite.setOnCheckedChangeListener((compoundButton, isChecked) -> {
             if (position != -1) {
                 if (isChecked) {
-                    item.setItemFavourite(true);
-                    db.setFavourite(item.getItemID(), 1);
+                    item.setProductFavourite(true);
+                    db.setFavourite(item.getProductId(), 1);
                 } else {
-                    db.setFavourite(item.getItemID(), 0);
+                    db.setFavourite(item.getProductId(), 0);
                 }
             }
         });
@@ -76,7 +76,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return itemModelClassArrayList.size();
+        return productArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -122,36 +122,36 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             int position = getAdapterPosition();
             int id = view.getId();
-            ItemModelClass item = itemModelClassArrayList.get(position);
-            int itemID = item.getItemID();
+            Product item = productArrayList.get(position);
+            int itemID = item.getProductId();
 
 
             if (id == btnAdd.getId()) {
                 tvItemQuantity.setText("1");
-                item.setItemQuantity(1);
+                item.setProductQuantity(1);
                 db.setQuantity(itemID, 1);
                 enableAddQuantityMode();
             } else if (id == btnItemAddQuantity.getId()) {
 
                 int quantity = Integer.parseInt(tvItemQuantity.getText().toString()) + 1;
-                item.setItemQuantity(quantity);
+                item.setProductQuantity(quantity);
 
                 tvItemQuantity.setText(String.valueOf(quantity));
-                tvItemPrice.setText(String.valueOf(quantity * item.getItemPrice()));
+                tvItemPrice.setText(String.valueOf(quantity * item.getProductPrice()));
 
                 db.setQuantity(itemID, quantity);
 
             } else if (id == btnItemSubtractQuantity.getId()) {
 
                 int quantity = Integer.parseInt(tvItemQuantity.getText().toString()) - 1;
-                item.setItemQuantity(quantity);
+                item.setProductQuantity(quantity);
 
                 if (quantity == 0) {
                     tvItemQuantity.setText("0");
                     disableAddQuantityMode();
                 } else {
                     tvItemQuantity.setText(String.valueOf(quantity));
-                    tvItemPrice.setText(String.valueOf(quantity * item.getItemPrice()));
+                    tvItemPrice.setText(String.valueOf(quantity * item.getProductPrice()));
                 }
 
                 db.setQuantity(itemID, quantity);

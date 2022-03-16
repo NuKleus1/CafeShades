@@ -58,7 +58,7 @@ public class CartFragment extends Fragment implements CartRecyclerViewAdapter.On
 //        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 //        recyclerView.setAdapter(adapter);
 
-        adapter = new CartRecyclerViewAdapter(DatabaseHelper.getInstance(getContext()).getAllCartItems(), this);
+        adapter = new CartRecyclerViewAdapter(DatabaseHelper.getInstance(getContext()).getAllCartProducts(), this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         setTotal();
@@ -73,7 +73,7 @@ public class CartFragment extends Fragment implements CartRecyclerViewAdapter.On
     }
 
     public int getCartItemTotal() {
-        return DatabaseHelper.getInstance(getContext()).getCartItemTotal();
+        return DatabaseHelper.getInstance(getContext()).getCartProductTotal();
     }
 
     @Override

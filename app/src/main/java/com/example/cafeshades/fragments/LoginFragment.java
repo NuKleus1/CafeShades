@@ -180,7 +180,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             public void onResponse(Call<UserData> call, Response<UserData> response) {
                 if (response.code() == 200) {
                     if (response.body().getResponseStatus().equals("true")) {
-                        Log.d(TAG, "/ResponseStatusTrue: " + response.body().getUser().getName());
+                        Log.d(TAG, "/ResponseStatusTrue: " + response.body().getResponseMessage());
                         UserPreferences.getPrefInstance(getContext()).setUserData(response.body().getUser());
                         UserPreferences.getPrefInstance(getContext()).setLoggedInFlag(true);
                         Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_mainActivitySecond);

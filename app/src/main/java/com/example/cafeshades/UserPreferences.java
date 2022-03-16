@@ -12,16 +12,12 @@ public class UserPreferences {
 
     public String emailId;
 
-//    public UserPreferences() {
-//        startPref = App.getAppContext().getSharedPreferences("Flags", 0);
-//    }
-
     public UserPreferences(Context context) {
         startPref = context.getSharedPreferences("Flags", 0);
     }
 
     public UserPreferences() {
-//        startPref = context.getSharedPreferences("Flags", 0);
+        startPref = App.getAppContext().getSharedPreferences("Flags", 0);
     }
 
 
@@ -40,12 +36,12 @@ public class UserPreferences {
         return prefInstance;
     }
 
-    public static UserPreferences getPrefInstance() {
-        if (prefInstance == null) {
-//            prefInstance = new UserPreferences();
-        }
-        return prefInstance;
-    }
+//    public static UserPreferences getPrefInstance() {
+//        if (prefInstance == null) {
+////            prefInstance = new UserPreferences();
+//        }
+//        return prefInstance;
+//    }
 
     private void openEditor() {
         startPrefEditor = startPref.edit();
