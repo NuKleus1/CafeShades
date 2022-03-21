@@ -31,7 +31,6 @@ public class Product {
     private int total;
 
     private boolean productFavourite = false;
-    private String productDescription;
 
     public Product() {
     }
@@ -42,13 +41,6 @@ public class Product {
         this.productName = productName;
         this.productImage = productImage;
         this.productPrice = productPrice;
-    }
-
-
-    public Product(String productName, String productDescription) {
-        this.productName = productName;
-        this.productDescription = productDescription;
-//        this.itemImage = itemImage;
     }
 
     public int getTotal() {
@@ -91,14 +83,6 @@ public class Product {
         this.productName = productName;
     }
 
-    public String getProductDescription() {
-        return productDescription;
-    }
-
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
-    }
-
     public String getProductImage() {
         return productImage;
     }
@@ -115,8 +99,8 @@ public class Product {
         this.productFavourite = itemIsFavourite;
     }
 
-    public int getProductId() {
-        return Integer.parseInt(productId);
+    public String getProductId() {
+        return productId;
     }
 
     public void setProductId(String productId) {

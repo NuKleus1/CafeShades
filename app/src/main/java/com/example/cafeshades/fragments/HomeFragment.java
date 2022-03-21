@@ -26,6 +26,7 @@ import com.example.cafeshades.utils.UtilAPI;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +37,7 @@ public class HomeFragment extends Fragment {
     ArrayList<Product> productArrayList = new ArrayList<>();
     ArrayList<Category> categoryArrayList = new ArrayList<>();
     String TAG = "HomeFragment";
-    View v = null;
+    private View v = null;
     RecyclerViewAdapter adapter;
     RecyclerView recyclerView;
 
@@ -50,7 +51,7 @@ public class HomeFragment extends Fragment {
             v = inflater.inflate(R.layout.fragment_home, container, false);
             Log.w(TAG, "onCreateViewNULL");
             init();
-            setData();
+//            setData();
         }
 
         return v;
@@ -59,6 +60,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setData();
         Log.w(TAG, "onViewCreated");
 
     }
@@ -70,6 +72,9 @@ public class HomeFragment extends Fragment {
 //        } else {
 //            setItemData();
 //        }
+        adapter = new RecyclerViewAdapter(productArrayList, getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
         callUtilAPI();
 
 //        Log.d(TAG, String.valueOf(DatabaseHelper.getInstance(getContext()).getAllProducts().isEmpty()));
@@ -90,22 +95,24 @@ public class HomeFragment extends Fragment {
                     if (response.body().getResponseStatus().equals("true")) {
                         Log.d(TAG, "/MenuResponseTrue: ");
                         categoryArrayList = (ArrayList<Category>) response.body().getCategoryList();
+                        List<String> productIds = new ArrayList<>();
                         for (Category category : categoryArrayList) {
                             String categoryName = category.getCategoryName();
                             String categoryId = category.getCategoryId();
                             for (Product product : category.getProductList()) {
-                                Log.d(TAG, String.valueOf(product.getProductId()));
+                                productIds.add(product.getProductId());
                                 product.setProductCategory(categoryName);
                                 product.setProductCategoryId(categoryId);
                                 productArrayList.add(product);
                             }
                         }
+//                        DatabaseHelper.getInstance(getContext()).updateProductAndCartTable(productIds);
                         for (Product product : productArrayList) {
                             DatabaseHelper.getInstance(getContext()).insertProduct(product);
                         }
-                        adapter = new RecyclerViewAdapter(productArrayList, getContext());
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                        recyclerView.setAdapter(adapter);
+//                        productArrayList = DatabaseHelper.getInstance(getContext()).getAllProducts();
+                        adapter.setData(productArrayList);
+                        Log.d(TAG, "/adapter" + productArrayList.isEmpty() );
                     } else {
                         Log.d(TAG, "/MenuResponseFalse");
                     }

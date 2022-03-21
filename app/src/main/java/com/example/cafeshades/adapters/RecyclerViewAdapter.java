@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    final ArrayList<Product> productArrayList;
+    private ArrayList<Product> productArrayList;
     private final Context context;
     private final String TAG = "RECYCLE_VIEW_ADAPTER";
     DatabaseHelper db;
@@ -31,6 +31,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.productArrayList = productArrayList;
         this.context = context;
         db = DatabaseHelper.getInstance(context);
+    }
+
+    public void setData(ArrayList<Product> productArrayList){
+        this.productArrayList = productArrayList;
+        notifyDataSetChanged();
     }
 
     @NotNull
@@ -47,7 +52,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 //        holder.ivItemImage.setImageBitmap(itemModelClassArrayList.get(position).getItemImage());
         holder.tvItemName.setText(item.getProductName());
-        holder.tvItemDesc.setText(item.getProductDescription());
         holder.cbFavourite.setChecked(item.isProductFavourite());
 
         int quantity = item.getProductQuantity();
@@ -63,14 +67,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // Set Favourite to true in model class item when checked, and insert into DB
         // when unchecked, delete the item from the DB
         holder.cbFavourite.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            if (position != -1) {
                 if (isChecked) {
                     item.setProductFavourite(true);
                     db.setFavourite(item.getProductId(), 1);
                 } else {
+                    item.setProductFavourite(false);
                     db.setFavourite(item.getProductId(), 0);
                 }
-            }
         });
     }
 
@@ -110,11 +113,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
         private void setListener() {
-
             btnItemAddQuantity.setOnClickListener(this);
             btnItemSubtractQuantity.setOnClickListener(this);
             btnAdd.setOnClickListener(this);
-
         }
 
         @Override
@@ -123,13 +124,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             int position = getAdapterPosition();
             int id = view.getId();
             Product item = productArrayList.get(position);
-            int itemID = item.getProductId();
+            String itemID = item.getProductId();
 
 
             if (id == btnAdd.getId()) {
                 tvItemQuantity.setText("1");
                 item.setProductQuantity(1);
-                db.setQuantity(itemID, 1);
+                db.setQuantity(Integer.parseInt(itemID), 1);
                 enableAddQuantityMode();
             } else if (id == btnItemAddQuantity.getId()) {
 
@@ -139,7 +140,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 tvItemQuantity.setText(String.valueOf(quantity));
                 tvItemPrice.setText(String.valueOf(quantity * item.getProductPrice()));
 
-                db.setQuantity(itemID, quantity);
+                db.setQuantity(Integer.parseInt(itemID), quantity);
 
             } else if (id == btnItemSubtractQuantity.getId()) {
 
@@ -154,7 +155,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     tvItemPrice.setText(String.valueOf(quantity * item.getProductPrice()));
                 }
 
-                db.setQuantity(itemID, quantity);
+                db.setQuantity(Integer.parseInt(itemID), quantity);
             }
         }
 

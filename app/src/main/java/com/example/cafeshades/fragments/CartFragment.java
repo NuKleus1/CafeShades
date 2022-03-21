@@ -54,10 +54,6 @@ public class CartFragment extends Fragment implements CartRecyclerViewAdapter.On
     }
 
     private void setData() {
-//        adapter = new RecycleViewAdapter(DatabaseHelper.getInstance(getContext()).getAllCartItems(), getContext());
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        recyclerView.setAdapter(adapter);
-
         adapter = new CartRecyclerViewAdapter(DatabaseHelper.getInstance(getContext()).getAllCartProducts(), this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);

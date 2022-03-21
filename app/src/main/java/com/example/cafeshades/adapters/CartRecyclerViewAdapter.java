@@ -90,7 +90,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             int position = getAdapterPosition();
             int id = view.getId();
             Product item = productArrayList.get(position);
-            int itemID = item.getProductId();
+            String itemID = item.getProductId();
 
 //            if (id == btnAdd.getId()) {
 //                tvItemQuantity.setText("1");
@@ -103,10 +103,10 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                 item.setProductQuantity(quantity);
                 tvItemQuantity.setText(String.valueOf(quantity));
                 tvItemPrice.setText(String.valueOf(quantity * item.getProductPrice()));
-                onViewClickListeners.setQuantity(itemID, quantity);
+                onViewClickListeners.setQuantity(Integer.parseInt(itemID), quantity);
             } else if (id == btnItemSubtractQuantity.getId()) {
                 int quantity = Integer.parseInt(tvItemQuantity.getText().toString()) - 1;
-                onViewClickListeners.setQuantity(itemID, quantity);
+                onViewClickListeners.setQuantity(Integer.parseInt(itemID), quantity);
                 item.setProductQuantity(quantity);
                 if (quantity == 0) {
 //                    tvItemQuantity.setText("0");
