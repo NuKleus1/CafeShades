@@ -8,5 +8,5 @@
         android:drawable="@drawable/ic_favourite_checked"
         android:state_checked="true"
         />
-    <item android:drawable="@drawable/ic_favourite" />
+<!--    <item android:drawable="@drawable/ic_favourite" />-->
 </selector>

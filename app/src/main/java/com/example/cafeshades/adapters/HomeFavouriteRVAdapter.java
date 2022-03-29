@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cafeshades.Helper.DatabaseHelper;
@@ -14,67 +17,68 @@ import com.example.cafeshades.R;
 import com.example.cafeshades.models.Product;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textview.MaterialTextView;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class HomeFavouriteRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<Product> productArrayList;
+    private static final int ITEM_VIEW_TYPE_CATEGORY = 1;
+    private static final int ITEM_VIEW_TYPE_PRODUCT = 2;
     private final Context context;
     private final String TAG = "RECYCLE_VIEW_ADAPTER";
     DatabaseHelper db;
+    private ArrayList<Product> productArrayList;
 
 
-    public RecyclerViewAdapter(ArrayList<Product> productArrayList, Context context) {
+    public HomeFavouriteRVAdapter(ArrayList<Product> productArrayList, Context context) {
         this.productArrayList = productArrayList;
         this.context = context;
         db = DatabaseHelper.getInstance(context);
     }
 
-    public void setData(ArrayList<Product> productArrayList){
+    public void setData(ArrayList<Product> productArrayList) {
         this.productArrayList = productArrayList;
         notifyDataSetChanged();
     }
 
     @NotNull
     @Override
-    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context)
-                .inflate(R.layout.card_view_items, parent, false);
-        return new RecyclerViewAdapter.ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
+        if (viewType == ITEM_VIEW_TYPE_PRODUCT) {
+            View view = LayoutInflater.from(context)
+                    .inflate(R.layout.card_view_items, parent, false);
+            return new ProductViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_category, parent, false);
+            return new CategoryViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Product item = productArrayList.get(position);
+    public void onBindViewHolder(RecyclerView.ViewHolder holders, int position) {
+        if (getItemViewType(position) == ITEM_VIEW_TYPE_PRODUCT) {
+            ProductViewHolder holder = (ProductViewHolder) holders;
+            Product item = productArrayList.get(position);
+            Picasso.get().load("http://mrcafe.mysandboxsite.com/images/" + item.getProductImage()).into(holder.ivItemImage);
+            holder.tvItemName.setText(item.getProductName());
+            holder.cbFavourite.setChecked(item.isProductFavourite());
 
-//        holder.ivItemImage.setImageBitmap(itemModelClassArrayList.get(position).getItemImage());
-        holder.tvItemName.setText(item.getProductName());
-        holder.cbFavourite.setChecked(item.isProductFavourite());
-
-        int quantity = item.getProductQuantity();
-        if (quantity == 0) {
-            holder.disableAddQuantityMode();
-            holder.tvItemPrice.setText(String.valueOf(item.getProductPrice()));
+            int quantity = item.getProductQuantity();
+            if (quantity == 0) {
+                holder.disableAddQuantityMode();
+                holder.tvItemPrice.setText(String.valueOf(item.getProductPrice()));
+            } else {
+                holder.enableAddQuantityMode();
+                holder.tvItemQuantity.setText(String.valueOf(quantity));
+                holder.tvItemPrice.setText(String.valueOf(item.getProductPrice() * quantity));
+            }
         } else {
-            holder.enableAddQuantityMode();
-            holder.tvItemQuantity.setText(String.valueOf(quantity));
-            holder.tvItemPrice.setText(String.valueOf(item.getProductPrice() * quantity));
+            CategoryViewHolder holder = (CategoryViewHolder) holders;
+            holder.tvCategory.setText(productArrayList.get(position).getProductCategory());
         }
-
-        // Set Favourite to true in model class item when checked, and insert into DB
-        // when unchecked, delete the item from the DB
-        holder.cbFavourite.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-                if (isChecked) {
-                    item.setProductFavourite(true);
-                    db.setFavourite(item.getProductId(), 1);
-                } else {
-                    item.setProductFavourite(false);
-                    db.setFavourite(item.getProductId(), 0);
-                }
-        });
     }
 
     @Override
@@ -82,15 +86,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return productArrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    @Override
+    public int getItemViewType(int position) {
+        if (productArrayList.get(position).getProductId().isEmpty()) {
+            return ITEM_VIEW_TYPE_CATEGORY;
+        } else {
+            return ITEM_VIEW_TYPE_PRODUCT;
+        }
 
-        //        ImageView ivItemImage;
+    }
+
+    public class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        ImageView ivItemImage;
         View v;
-        MaterialTextView tvItemName, tvItemDesc, tvItemPrice, tvItemQuantity;
+        MaterialTextView tvItemName, tvItemPrice, tvItemQuantity;
         Button btnItemAddQuantity, btnItemSubtractQuantity, btnAdd;
         MaterialCheckBox cbFavourite;
 
-        public ViewHolder(View v) {
+        public ProductViewHolder(View v) {
             super(v);
             this.v = v;
             init();
@@ -101,9 +115,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         private void init() {
 
-//            ivItemImage = v.findViewById(R.id.iv_item_image);
+            ivItemImage = v.findViewById(R.id.iv_item_image);
             tvItemName = v.findViewById(R.id.tv_item_name);
-            tvItemDesc = v.findViewById(R.id.tv_item_desc);
             tvItemPrice = v.findViewById(R.id.tv_item_price);
             tvItemQuantity = v.findViewById(R.id.tv_item_quantity);
             btnAdd = v.findViewById(R.id.btn_add);
@@ -116,6 +129,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             btnItemAddQuantity.setOnClickListener(this);
             btnItemSubtractQuantity.setOnClickListener(this);
             btnAdd.setOnClickListener(this);
+
+            cbFavourite.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+                if (isChecked) {
+                    productArrayList.get(getAdapterPosition()).setProductFavourite(true);
+                    db.setFavourite(productArrayList.get(getAdapterPosition()).getProductId(), 1);
+                } else {
+                    productArrayList.get(getAdapterPosition()).setProductFavourite(false);
+                    db.setFavourite(productArrayList.get(getAdapterPosition()).getProductId(), 0);
+                }
+            });
         }
 
         @Override
@@ -171,6 +194,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             btnItemAddQuantity.setVisibility(View.VISIBLE);
             btnItemSubtractQuantity.setVisibility(View.VISIBLE);
             tvItemQuantity.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public class CategoryViewHolder extends RecyclerView.ViewHolder {
+        TextView tvCategory;
+
+        public CategoryViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvCategory = itemView.findViewById(R.id.tv_category);
         }
     }
 }

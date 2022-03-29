@@ -15,13 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cafeshades.Helper.DatabaseHelper;
 import com.example.cafeshades.R;
-import com.example.cafeshades.UserPreferences;
-import com.example.cafeshades.adapters.RecyclerViewAdapter;
+import com.example.cafeshades.adapters.HomeFavouriteRVAdapter;
 import com.example.cafeshades.models.Category;
 import com.example.cafeshades.models.MenuResponse;
 import com.example.cafeshades.models.Product;
 import com.example.cafeshades.utils.APIClient;
 import com.example.cafeshades.utils.UtilAPI;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,13 +38,12 @@ public class HomeFragment extends Fragment {
     ArrayList<Product> productArrayList = new ArrayList<>();
     ArrayList<Category> categoryArrayList = new ArrayList<>();
     String TAG = "HomeFragment";
-    private View v = null;
-    RecyclerViewAdapter adapter;
+    boolean flag = false;
+    HomeFavouriteRVAdapter adapter;
     RecyclerView recyclerView;
-
-    public HomeFragment() {
-        super(R.layout.fragment_home);
-    }
+    ChipGroup chipGroup;
+    private DatabaseHelper db;
+    private View v = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -51,39 +51,50 @@ public class HomeFragment extends Fragment {
             v = inflater.inflate(R.layout.fragment_home, container, false);
             Log.w(TAG, "onCreateViewNULL");
             init();
-//            setData();
+            setData();
         }
-
         return v;
     }
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setData();
         Log.w(TAG, "onViewCreated");
+        if (flag) {
+            for (Product product : productArrayList) {
+                product.setProductFavourite(db.getFavourite(product.getProductId()));
+                product.setProductQuantity(db.getQuantity(product.getProductId()));
+            }
+            adapter.notifyDataSetChanged();
+        } else {
+            flag = true;
+        }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume");
+//        if (flag) {
+////            for (Product product : productArrayList) {
+////                product.setProductFavourite(db.getFavourite(product.getProductId()));
+////                product.setProductQuantity(db.getQuantity(product.getProductId()));
+////            }
+//            productArrayList = db.getAllProducts();
+//            adapter.setData(productArrayList);
+//        } else {
+//            flag = true;
+//        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy");
     }
 
     private void setData() {
-
-//        if (UserPreferences.getPrefInstance().getDatabaseCreated()) {
-//            productArrayList = DatabaseHelper.getInstance(getContext()).getAllProducts();
-//        } else {
-//            setItemData();
-//        }
-        adapter = new RecyclerViewAdapter(productArrayList, getContext());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
         callUtilAPI();
-
-//        Log.d(TAG, String.valueOf(DatabaseHelper.getInstance(getContext()).getAllProducts().isEmpty()));
-//        for (Product product :
-//                DatabaseHelper.getInstance(getContext()).getAllProducts()) {
-//            Log.d(TAG, product.toString());
-//        }
-
-//        Log.d(TAG, String.valueOf(productArrayList.get(1).getProductName()));
     }
 
     private void callUtilAPI() {
@@ -99,20 +110,25 @@ public class HomeFragment extends Fragment {
                         for (Category category : categoryArrayList) {
                             String categoryName = category.getCategoryName();
                             String categoryId = category.getCategoryId();
+                            productArrayList.add(new Product(categoryName));
                             for (Product product : category.getProductList()) {
+                                product.setProductFavourite(db.getFavourite(product.getProductId()));
+                                product.setProductQuantity(db.getQuantity(product.getProductId()));
                                 productIds.add(product.getProductId());
                                 product.setProductCategory(categoryName);
                                 product.setProductCategoryId(categoryId);
                                 productArrayList.add(product);
                             }
                         }
-//                        DatabaseHelper.getInstance(getContext()).updateProductAndCartTable(productIds);
+                        db.updateProductAndCartTable(productIds);
                         for (Product product : productArrayList) {
-                            DatabaseHelper.getInstance(getContext()).insertProduct(product);
+                            db.insertProduct(product);
                         }
-//                        productArrayList = DatabaseHelper.getInstance(getContext()).getAllProducts();
-                        adapter.setData(productArrayList);
-                        Log.d(TAG, "/adapter" + productArrayList.isEmpty() );
+                        setCategoryChips();
+//                        productArrayList = db.getAllProducts();
+                        adapter = new HomeFavouriteRVAdapter(productArrayList, getContext());
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                        recyclerView.setAdapter(adapter);
                     } else {
                         Log.d(TAG, "/MenuResponseFalse");
                     }
@@ -130,21 +146,21 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void setItemData() {
-//        itemDataList.add(new Product("Black Forest Cup", "nice coffee", "Coffee", getBitmap(), 321, 256));
-//        itemDataList.add(new Product("Black Forest Cup", "nice coffee", "Coffee", getBitmap(), 322, 635));
-//        itemDataList.add(new Product("Black Forest Cup", "nice coffee", "Coffee", getBitmap(), 323, 54));
-//        itemDataList.add(new Product("Black Forest Cup", "nice coffee", "Coffee", getBitmap(), 324, 250));
-//        itemDataList.add(new Product("Black Forest Cup", "nice coffee", "Coffee", getBitmap(), 325, 520));
-//        itemDataList.add(new Product("Black Forest Cup", "nice coffee", "Coffee", getBitmap(), 326, 333));
-//        itemDataList.add(new Product("Black Forest Cup", "nice coffee", "Coffee", getBitmap(), 327, 45));
-
-        Log.w(TAG, "Static Data Added to the Database");
-
-        UserPreferences.getPrefInstance(getContext()).setDatabaseCreated(true);
+    public void setCategoryChips() {
+        View view;
+        Chip chip;
+        for (Category category :
+                categoryArrayList) {
+            view = getLayoutInflater().inflate(R.layout.filter_chips_layout, null);
+            chip = view.findViewById(R.id.filter_chip);
+            chip.setText(category.getCategoryName());
+            chipGroup.addView(chip);
+        }
     }
 
     private void init() {
+        db = DatabaseHelper.getInstance(getContext());
         recyclerView = v.findViewById(R.id.recycle_view_home);
+        chipGroup = v.findViewById(R.id.chip_group_filter_categories);
     }
 }

@@ -41,7 +41,6 @@
 
         <TextView
             android:id="@+id/tv_date"
-            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="24 Sep 2022 at 1:13PM"

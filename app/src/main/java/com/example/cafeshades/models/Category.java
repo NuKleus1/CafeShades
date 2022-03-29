@@ -42,6 +42,12 @@ public class Category {
         this.productList = productList;
     }
 
+    public Category(String categoryId, String categoryName) {
+        super();
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+    }
+
     public String getCategoryId() {
         return categoryId;
     }

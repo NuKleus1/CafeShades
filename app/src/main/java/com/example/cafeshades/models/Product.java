@@ -8,7 +8,7 @@ public class Product {
 
     @SerializedName("productId")
     @Expose
-    private String productId;
+    private String productId = "";
     @SerializedName("productName")
     @Expose
     private String productName;
@@ -41,6 +41,11 @@ public class Product {
         this.productName = productName;
         this.productImage = productImage;
         this.productPrice = productPrice;
+    }
+
+    public Product(String productCategory) {
+        super();
+        this.productCategory = productCategory;
     }
 
     public int getTotal() {

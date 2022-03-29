@@ -21,7 +21,6 @@ import com.example.cafeshades.utils.UtilAPI;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -45,18 +44,6 @@ public class OrdersFragment extends Fragment {
     }
 
     private void setData() {
-//        ArrayList<OrderItemModelClass> item = new ArrayList<>();
-//
-//        item.add(new OrderItemModelClass("2", "Cappuccino", "453"));
-//        item.add(new OrderItemModelClass("2", "Cappuccino", "453"));
-//        item.add(new OrderItemModelClass("2", "Cappuccino", "453"));
-//        item.add(new OrderItemModelClass("2", "Cappuccino", "453"));
-
-//        orderList.add(new OrderModelClass("5432", "24 Sep 2022", "Confirmed", "245", item));
-//        orderList.add(new OrderModelClass("5432", "24 Sep 2022", "Confirmed", "245", item));
-//        orderList.add(new OrderModelClass("5432", "24 Sep 2022", "Confirmed", "245", item));
-//        orderList.add(new OrderModelClass("5432", "24 Sep 2022", "Confirmed", "245", item));
-//        orderList.add(new OrderModelClass("5432", "24 Sep 2022", "Confirmed", "245", item));
 
         callUtilAPI();
 

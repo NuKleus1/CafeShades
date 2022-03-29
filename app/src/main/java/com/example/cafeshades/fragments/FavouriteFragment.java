@@ -14,14 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cafeshades.Helper.DatabaseHelper;
 import com.example.cafeshades.R;
-import com.example.cafeshades.adapters.RecyclerViewAdapter;
+import com.example.cafeshades.adapters.HomeFavouriteRVAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
 public class FavouriteFragment extends Fragment {
 
     private static final String TAG = "FavouriteFragment";
-    RecyclerViewAdapter adapter;
+    HomeFavouriteRVAdapter adapter;
     DatabaseHelper db;
     private View v = null;
     RecyclerView recyclerView;
@@ -50,7 +50,7 @@ public class FavouriteFragment extends Fragment {
 
     private void setData() {
 //        dataList = db.getAllFavouriteItems();
-        adapter = new RecyclerViewAdapter(db.getAllFavouriteProducts(), getContext());
+        adapter = new HomeFavouriteRVAdapter(db.getAllFavouriteProducts(), getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }
