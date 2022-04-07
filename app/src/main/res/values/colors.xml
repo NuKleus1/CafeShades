@@ -21,7 +21,7 @@
     <color name="colorSurface">#eadbcc</color>
     <color name="colorOnSurface">#000000</color>
 
-
+<color name="shimmerColorBG">#BDB9B9</color>
 
 </resources>
 

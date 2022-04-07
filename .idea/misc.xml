@@ -20,13 +20,14 @@
         <entry key="..\:/CafeeShades/app/src/main/res/layout/filter_chips_layout.xml" value="0.23802083333333332" />
         <entry key="..\:/CafeeShades/app/src/main/res/layout/fragment_cart.xml" value="0.23802083333333332" />
         <entry key="..\:/CafeeShades/app/src/main/res/layout/fragment_favourite.xml" value="0.23802083333333332" />
-        <entry key="..\:/CafeeShades/app/src/main/res/layout/fragment_home.xml" value="0.16859791425260717" />
+        <entry key="..\:/CafeeShades/app/src/main/res/layout/fragment_home.xml" value="0.4" />
         <entry key="..\:/CafeeShades/app/src/main/res/layout/fragment_login.xml" value="0.536" />
         <entry key="..\:/CafeeShades/app/src/main/res/layout/fragment_my_orders.xml" value="0.23802083333333332" />
         <entry key="..\:/CafeeShades/app/src/main/res/layout/fragment_orders.xml" value="0.264" />
         <entry key="..\:/CafeeShades/app/src/main/res/layout/fragment_profile.xml" value="0.2692307692307692" />
         <entry key="..\:/CafeeShades/app/src/main/res/layout/fragment_sign_up.xml" value="0.178515625" />
         <entry key="..\:/CafeeShades/app/src/main/res/layout/fragment_sign_up_profile.xml" value="0.23802083333333332" />
+        <entry key="..\:/CafeeShades/app/src/main/res/layout/shimmer_layout_home_fragment.xml" value="0.4" />
       </map>
     </option>
   </component>

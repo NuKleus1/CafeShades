@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 
 public final class DatabaseHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "CafeShades.db";
     public static final String ITEMS_TABLE_NAME = "products";
     public static final String ITEMS_COLUMN_ID = "productId";
     public static final String ITEMS_COLUMN_NAME = "productName";
@@ -26,6 +25,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CART_TABLE_NAME = "cart";
     public static final String CART_COLUMN_ID = "productId";
     public static final String CART_COLUMN_QUANTITY = "productQuantity";
+    public static final String DATABASE_NAME = "CafeShades.db";
     private static final String TAG = "DatabaseHelper";
     private static DatabaseHelper dbHelperInstance = null;
 
@@ -86,8 +86,8 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
     //ITEMS
     public void insertProduct(Product product) {
-        if (product.getProductId().isEmpty()){
-            return ;
+        if (product.getProductId().isEmpty()) {
+            return;
         }
         try {
             SQLiteDatabase db = this.getWritableDatabase();
@@ -123,20 +123,9 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Product> products = new ArrayList<>();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-//            Cursor cursor = db.rawQuery("SELECT " + ITEMS_TABLE_NAME + ".*, " + CART_TABLE_NAME + "." + CART_COLUMN_QUANTITY +
-//                            " FROM " + ITEMS_TABLE_NAME + ", " + CART_TABLE_NAME,
-//                    null);
 
             Cursor cursor = db.rawQuery("SELECT products.*, cart.productQuantity FROM products left OUTER JOIN cart ON products.productId == cart.productid",
                     null);
-
-//            Cursor cursor = db.rawQuery("SELECT * FROM products", null);
-
-//            Log.d(TAG, cursor.getString());
-
-//            Cursor cursor = db.rawQuery("SELECT * " +
-//                            " FROM " + ITEMS_TABLE_NAME,
-//                    null);
 
             if (cursor.moveToFirst()) {
                 do {
@@ -165,7 +154,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     public void updateProductAndCartTable(List<String> productIDs) {
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-//            int delete = db.delete(ITEMS_TABLE_NAME, ITEMS_COLUMN_ID + " NOT IN ?", productIDs.toArray(new String[0]));
+
             db.rawQuery("DELETE FROM " + ITEMS_TABLE_NAME +
                     " WHERE " + ITEMS_COLUMN_ID + " NOT IN (" + TextUtils.join(", ", productIDs) + ")", null);
 

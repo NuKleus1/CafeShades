@@ -8,14 +8,79 @@
     android:orientation="vertical"
     tools:context=".fragments.HomeFragment">
 
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_view_chips">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10sp"
+                android:orientation="horizontal"
+                android:padding="10sp">
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:orientation="vertical">
+
+                <include layout="@layout/shimmer_layout_home_fragment" />
+
+                <include layout="@layout/shimmer_layout_home_fragment" />
+
+                <include layout="@layout/shimmer_layout_home_fragment" />
+
+                <include layout="@layout/shimmer_layout_home_fragment" />
+
+                <include layout="@layout/shimmer_layout_home_fragment" />
+
+                <include layout="@layout/shimmer_layout_home_fragment" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <HorizontalScrollView
         android:id="@+id/horizontal_view_chips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.chip.ChipGroup
@@ -24,44 +89,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10sp"
             android:padding="10sp"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_add_all"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="All" />
-
-            <!--            <com.google.android.material.chip.Chip-->
-            <!--                style="@style/Widget.MaterialComponents.Chip.Filter"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="Cappuccino" />-->
-
-            <!--            <com.google.android.material.chip.Chip-->
-            <!--                style="@style/Widget.MaterialComponents.Chip.Filter"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="Burger" />-->
-
-            <!--            <com.google.android.material.chip.Chip-->
-            <!--                style="@style/Widget.MaterialComponents.Chip.Filter"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="pizza" />-->
-
-            <!--            <com.google.android.material.chip.Chip-->
-            <!--                style="@style/Widget.MaterialComponents.Chip.Filter"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="Cappuccino" />-->
-
-            <!--            <com.google.android.material.chip.Chip-->
-            <!--                style="@style/Widget.MaterialComponents.Chip.Filter"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="Cappuccino" />-->
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -71,6 +108,7 @@
         android:id="@+id/recycle_view_home"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

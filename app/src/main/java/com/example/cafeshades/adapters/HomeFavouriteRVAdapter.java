@@ -79,6 +79,7 @@ public class HomeFavouriteRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             CategoryViewHolder holder = (CategoryViewHolder) holders;
             holder.tvCategory.setText(productArrayList.get(position).getProductCategory());
         }
+
     }
 
     @Override
@@ -109,7 +110,6 @@ public class HomeFavouriteRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             this.v = v;
             init();
             setListener();
-
             Log.w(TAG, "VIEW HOLDER CREATED");
         }
 
@@ -177,7 +177,6 @@ public class HomeFavouriteRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     tvItemQuantity.setText(String.valueOf(quantity));
                     tvItemPrice.setText(String.valueOf(quantity * item.getProductPrice()));
                 }
-
                 db.setQuantity(Integer.parseInt(itemID), quantity);
             }
         }
